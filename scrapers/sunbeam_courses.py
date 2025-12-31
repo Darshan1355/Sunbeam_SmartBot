@@ -1,26 +1,44 @@
-import time
-import re
-import os
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
+def run_modular_courses_scraper():
+    import time
+    import re
+    from selenium import webdriver
+    from selenium.webdriver.chrome.options import Options
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.chrome.service import Service
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
+    from webdriver_manager.chrome import ChromeDriverManager
 
 
-class SunbeamCoursesScraper:
-    """
-    Scrapes Sunbeam Modular Courses and stores data in TXT format
-    """
-
-    def __init__(self, driver, wait):
-        self.driver = driver
-        self.wait = wait
-
-    # ------------------ UTILITIES ------------------
-    def _clean_text(self, text):
+    def clean_text(text):
         text = re.sub(r'CLICK TO REGISTER', '', text, flags=re.IGNORECASE)
         text = re.sub(r'\n{3,}', '\n\n', text)
         return text.strip()
 
-    def _is_basic_info_line(self, text):
+
+    options = Options()
+    options.add_argument("--headless=new")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+
+    driver = webdriver.Chrome(
+        service=Service(ChromeDriverManager().install()),
+        options=options
+    )
+
+    wait = WebDriverWait(driver, 30)
+
+    driver.get("https://sunbeaminfo.in/modular-courses-home")
+    wait.until(EC.presence_of_element_located((By.CLASS_NAME, "c_cat_box")))
+
+    courses = []
+    for card in driver.find_elements(By.CLASS_NAME, "c_cat_box"):
+        title = card.find_element(By.CSS_SELECTOR, ".c_info h4").text.strip()
+        link = card.find_element(By.CSS_SELECTOR, "a.c_cat_more_btn").get_attribute("href")
+        courses.append((title, link))
+
+
+    def is_basic_info_line(text):
         keys = [
             "batch schedule",
             "schedule :",
@@ -32,136 +50,109 @@ class SunbeamCoursesScraper:
         t = text.lower()
         return any(k in t for k in keys)
 
-    # ------------------ SCRAPE CORE ------------------
-    def scrape(self):
-        self.driver.get("https://sunbeaminfo.in/modular-courses-home")
 
-        self.wait.until(
-            EC.presence_of_element_located((By.CLASS_NAME, "c_cat_box"))
-        )
+    SECTION_MAP = {
+        "target audience": "Target Audience",
+        "course introduction": "Target Audience",
+        "syllabus": "Syllabus",
+        "prerequisites": "Prerequisites",
+        "pre-requisites": "Prerequisites",
+        "software setup": "Tools & Setup",
+        "tools & setup": "Tools & Setup",
+        "outcome": "Outcome",
+        "outcomes": "Outcome",
+        "important notes": "Important Notes",
+        "recorded videos": "Video Availability Till Date",
+        "video availability till date": "Video Availability Till Date",
+        "batch schedule": "Batch Schedule"
+    }
 
-        courses = []
-        for card in self.driver.find_elements(By.CLASS_NAME, "c_cat_box"):
-            title = card.find_element(By.CSS_SELECTOR, ".c_info h4").text.strip()
-            link = card.find_element(By.CSS_SELECTOR, "a.c_cat_more_btn").get_attribute("href")
-            courses.append((title, link))
+    SECTION_ORDER = [
+        "Target Audience",
+        "Syllabus",
+        "Prerequisites",
+        "Tools & Setup",
+        "Outcome",
+        "Important Notes",
+        "Video Availability Till Date",
+        "Batch Schedule"
+    ]
 
-        all_courses = []
 
-        SECTION_MAP = {
-            "target audience": "Target Audience",
-            "course introduction": "Target Audience",
-            "syllabus": "Syllabus",
-            "prerequisites": "Prerequisites",
-            "pre-requisites": "Prerequisites",
-            "software setup": "Tools & Setup",
-            "tools & setup": "Tools & Setup",
-            "outcome": "Outcome",
-            "outcomes": "Outcome",
-            "important notes": "Important Notes",
-            "recorded videos": "Video Availability",
-            "video availability till date": "Video Availability",
-            "batch schedule": "Batch Schedule"
-        }
+    for course_title, course_url in courses:
+        driver.get(course_url)
+        wait.until(EC.presence_of_element_located((By.CLASS_NAME, "course_info")))
 
-        SECTION_ORDER = [
-            "Target Audience",
-            "Syllabus",
-            "Prerequisites",
-            "Tools & Setup",
-            "Outcome",
-            "Important Notes",
-            "Video Availability",
-            "Batch Schedule"
-        ]
+        basic_info = {}
+        sections = {}
+        seen_text = set()
 
-        for course_title, course_url in courses:
-            self.driver.get(course_url)
-            self.wait.until(
-                EC.presence_of_element_located((By.CLASS_NAME, "course_info"))
-            )
+        info_box = driver.find_element(By.CLASS_NAME, "course_info")
 
-            basic_info = {}
-            sections = {}
-            seen_text = set()
+        try:
+            h3 = info_box.find_element(By.TAG_NAME, "h3").text
+            if ":" in h3:
+                k, v = h3.split(":", 1)
+                basic_info[k.strip()] = v.strip()
+        except:
+            pass
 
-            info_box = self.driver.find_element(By.CLASS_NAME, "course_info")
+        for p in info_box.find_elements(By.TAG_NAME, "p"):
+            txt = p.text.strip()
+            if ":" in txt:
+                k, v = txt.split(":", 1)
+                basic_info[k.strip()] = v.strip()
 
-            # -------- Basic Info --------
-            for p in info_box.find_elements(By.TAG_NAME, "p"):
-                txt = p.text.strip()
-                if ":" in txt:
-                    k, v = txt.split(":", 1)
-                    basic_info[k.strip()] = v.strip()
+        panels = driver.find_elements(By.CSS_SELECTOR, ".panel.panel-default")
+        for panel in panels:
+            try:
+                head = panel.find_element(By.CSS_SELECTOR, ".panel-title a")
+                raw = head.text.strip().lower().replace(":", "")
+                driver.execute_script("arguments[0].click();", head)
 
-            # -------- Accordion Panels --------
-            panels = self.driver.find_elements(By.CSS_SELECTOR, ".panel.panel-default")
-            for panel in panels:
-                try:
-                    head = panel.find_element(By.CSS_SELECTOR, ".panel-title a")
-                    raw_title = head.text.strip().lower().replace(":", "")
+                body = WebDriverWait(panel, 10).until(
+                    EC.visibility_of_element_located((By.CLASS_NAME, "panel-body"))
+                )
 
-                    self.driver.execute_script("arguments[0].click();", head)
+                content = clean_text(body.text)
+                if content and content not in seen_text:
+                    seen_text.add(content)
+                    mapped = SECTION_MAP.get(raw, raw.title())
+                    sections.setdefault(mapped, []).append(content)
 
-                    body = panel.find_element(By.CLASS_NAME, "panel-body")
-                    content = self._clean_text(body.text)
+                time.sleep(0.2)
+            except:
+                pass
 
-                    if content and content not in seen_text:
-                        seen_text.add(content)
-                        mapped = SECTION_MAP.get(raw_title, raw_title.title())
-                        sections.setdefault(mapped, []).append(content)
+        for el in info_box.find_elements(By.XPATH, ".//h4 | .//p | .//li"):
+            txt = clean_text(el.text)
+            if not txt:
+                continue
+            if is_basic_info_line(txt):
+                continue
+            if txt in seen_text:
+                continue
 
-                    time.sleep(0.2)
-                except:
-                    continue
+            seen_text.add(txt)
+            sections.setdefault("Additional Information", []).append(txt)
 
-            # -------- Extra Content --------
-            for el in info_box.find_elements(By.XPATH, ".//h4 | .//p | .//li"):
-                txt = self._clean_text(el.text)
-                if not txt:
-                    continue
-                if self._is_basic_info_line(txt):
-                    continue
-                if txt in seen_text:
-                    continue
 
-                seen_text.add(txt)
-                sections.setdefault("Additional Information", []).append(txt)
+        print("\n" + "=" * 100)
+        print(course_title)
+        print()
 
-            all_courses.append({
-                "course_title": course_title,
-                "basic_info": basic_info,
-                "sections": sections,
-                "section_order": SECTION_ORDER
-            })
+        BASIC_ORDER = ["Course Name", "Batch Schedule", "Schedule", "Duration", "Timings", "Fees"]
+        for key in BASIC_ORDER:
+            if key in basic_info:
+                print(f"{key} : {basic_info[key]}\n")
 
-        return all_courses
+        idx = 1
+        for sec in SECTION_ORDER + ["Additional Information"]:
+            if sec in sections:
+                print(f"{idx}. {sec}")
+                print("\n".join(sections[sec]))
+                print()
+                idx += 1
 
-    # ------------------ SAVE TO TXT ------------------
-    def scrape_to_txt(self, output_path="text_data/sunbeam_courses.txt"):
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-        courses = self.scrape()
-
-        with open(output_path, "w", encoding="utf-8") as f:
-            f.write("SUNBEAM MODULAR COURSES\n")
-            f.write("=" * 100 + "\n\n")
-
-            for course in courses:
-                f.write(course["course_title"].upper() + "\n\n")
-
-                for k, v in course["basic_info"].items():
-                    f.write(f"{k}: {v}\n")
-                f.write("\n")
-
-                idx = 1
-                for sec in course["section_order"] + ["Additional Information"]:
-                    if sec in course["sections"]:
-                        f.write(f"{idx}. {sec}\n")
-                        for txt in course["sections"][sec]:
-                            f.write(txt + "\n\n")
-                        idx += 1
-
-                f.write("-" * 100 + "\n\n")
-
-        print(f"Courses data saved to {output_path}")
+    driver.quit()
