@@ -1,0 +1,14 @@
+.git/
+.venv/
+venv/
+ENV/
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+**/.env
+**/.env.*
+!**/.env.example
+**/node_modules/
+frontend/dist/
+backend/data/
+data/chroma_db/

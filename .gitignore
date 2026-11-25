@@ -1,5 +1,45 @@
+# Python
 __pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.tox/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Environments and secrets
 .env
-*.pyc
-*.pyo
+.env.*
+!.env.example
+.venv/
 venv/
+ENV/
+
+# Local databases and vector stores
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.db
+backend/data/
+data/chroma_db/
+
+# Frontend dependencies and generated output
+node_modules/
+frontend/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local editor settings and operating systems
+.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.log

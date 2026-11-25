@@ -1,0 +1,12 @@
+beautifulsoup4
+chromadb
+langchain-chroma
+langchain-community
+langchain-core
+langchain-groq
+langchain-huggingface
+langchain-text-splitters
+python-dotenv
+selenium
+sentence-transformers
+webdriver-manager

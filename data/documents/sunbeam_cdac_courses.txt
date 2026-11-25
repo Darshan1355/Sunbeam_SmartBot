@@ -1,0 +1,82 @@
+SUNBEAM INSTITUTE OF INFORMATION TECHNOLOGY — C-DAC ACTS AUTHORIZED TRAINING CENTRE
+====================================================================================================
+
+OVERVIEW:
+Sunbeam Institute of Information Technology (SIIT) is one of the premier and most prestigious Authorized Training Centres (ATC) of C-DAC (Centre for Development of Advanced Computing, Ministry of Electronics and Information Technology, Government of India).
+Sunbeam conducts C-DAC's flagship Post Graduate Diploma courses designed to produce industry-ready software engineers and IT professionals.
+
+====================================================================================================
+1. PG-DAC (Post Graduate Diploma in Advanced Computing)
+====================================================================================================
+- Course Duration: 24 weeks (6 months) full-time, intensive program (~900 hours).
+- Course Focus: Advanced Computing, Enterprise Software Development, Full-Stack Development.
+- Key Modules Covered:
+  * Operating System Concepts & Linux Internals
+  * Object-Oriented Programming with C++
+  * Core Java and Advanced Enterprise Java (Spring Boot, Hibernate, Microservices)
+  * Web Programming Technologies (HTML5, CSS3, JavaScript, React, Node.js)
+  * Database Technologies (MySQL, PostgreSQL, MongoDB)
+  * Microsoft .NET Core Technologies (C#, ASP.NET Core)
+  * Software Development Methodologies & Agile/DevOps
+  * End-to-End Enterprise Project Development
+- Eligibility Criteria:
+  * Graduate in Engineering (B.E. / B.Tech or equivalent in CS / IT / EE / ECE / Mechanical / Civil / etc.)
+  * Post Graduate in Computer Science / IT / Electronics (MCA, M.Sc CS, M.Sc IT, etc.)
+  * Minimum 50% aggregate marks in qualifying examination.
+  * Admission through C-DAC's Common Admission Test (C-CAT).
+- Batch Timing: Full-time (Monday to Saturday, 8:00 AM to 8:00 PM including lectures and lab practicals).
+- Course Fees: Approximately Rs. 90,000/- to Rs. 1,00,000/- + GST as per C-DAC guidelines (payable in installments).
+- Career Opportunities: Software Developer, Full-Stack Engineer, Java Developer, Systems Engineer.
+
+====================================================================================================
+2. PG-DBDA (Post Graduate Diploma in Big Data Analytics)
+====================================================================================================
+- Course Duration: 24 weeks (6 months) full-time (~900 hours).
+- Course Focus: Big Data Engineering, Machine Learning, Data Science, and Cloud Analytics.
+- Key Modules Covered:
+  * Statistical Analysis and Data Foundations using R & Python
+  * Big Data Technologies (Hadoop Ecosystem, MapReduce, HDFS, Hive, Pig)
+  * Apache Spark Mastery (PySpark, Spark SQL, Spark Streaming)
+  * Data Warehousing, ETL, and Business Intelligence (Tableau, PowerBI)
+  * Machine Learning Algorithms & Deep Learning Foundations
+  * Cloud Computing & Big Data on AWS / GCP
+  * Capstone Big Data Analytics Project
+- Eligibility Criteria:
+  * B.E. / B.Tech, MCA, M.Sc (Maths/Stats/CS/IT), or equivalent technical graduation with minimum 50% marks.
+  * Admission through C-DAC C-CAT.
+- Fees: As per C-DAC guidelines (Rs. 90,000/- to Rs. 1,00,000/- + GST).
+- Career Opportunities: Big Data Engineer, Data Analyst, Machine Learning Engineer, BI Specialist.
+
+====================================================================================================
+3. PG-DMC (Post Graduate Diploma in Mobile Computing)
+====================================================================================================
+- Course Duration: 24 weeks (6 months) full-time.
+- Focus: Mobile Application Development across Android, iOS, and Cross-Platform ecosystems.
+- Modules: Native Android (Kotlin/Java), iOS (Swift), React Native/Flutter, Cloud backend integration, RESTful APIs.
+- Eligibility: Graduate in Engineering (Any stream) or MCA / M.Sc.
+
+====================================================================================================
+4. PG-DESD (Post Graduate Diploma in Embedded Systems Design)
+====================================================================================================
+- Course Duration: 24 weeks (6 months) full-time.
+- Focus: Embedded software, microcontrollers, IoT, ARM architecture, RTOS, Device Drivers.
+- Modules: C Programming, Embedded Linux, Microcontroller Architecture (ARM Cortex), RTOS, IoT Protocols.
+- Eligibility: B.E. / B.Tech in Electronics, E&TC, Instrumentation, Electrical, CS/IT or equivalent.
+
+====================================================================================================
+5. C-DAC C-CAT ADMISSION PROCESS
+====================================================================================================
+- Admissions to all PG Diploma courses are done strictly through C-DAC’s centralized Common Admission Test (C-CAT).
+- C-CAT is held twice a year (typically in January for March batches, and in July for September batches).
+- C-CAT Sections:
+  * Section A: English, Quantitative Aptitude, Reasoning
+  * Section B: Computer Fundamentals, C Programming, Data Structures, OOP Concepts, OS, Networking
+  * Section C (For specific courses): Microprocessors, Digital Electronics
+- Sunbeam consistently ranks as the top-choice center across India for C-CAT rank holders.
+
+====================================================================================================
+6. CAMPUS PLACEMENT PROGRAMME (CPP)
+====================================================================================================
+- Sunbeam boasts an exceptional placement record with over 90%+ placement rates for eligible students.
+- Renowned hiring partners include: TCS, Infosys, Cognizant, Accenture, Persistent Systems, Harbinger Group, CDAC, Amdocs, PTC, KPIT, Siemens, NVIDIA, and many more.
+- Pre-Placement Preparation (PPP) includes technical mock interviews, soft skills training, resume reviews, and aptitude coaching.

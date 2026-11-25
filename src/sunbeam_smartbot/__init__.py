@@ -1,0 +1,1 @@
+"""Sunbeam SmartBot application package."""

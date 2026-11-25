@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: sunbeam-smartbot-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - DEBUG=false
+      - HOST=0.0.0.0
+      - PORT=8000
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - GROQ_MODEL=${GROQ_MODEL:-openai/gpt-oss-120b}
+      - CORS_ORIGINS=["http://localhost:5173","http://localhost:3000","https://sunbeam-smartbot.vercel.app"]
+      - CHROMA_PERSIST_DIR=/app/data/chroma_db
+    volumes:
+      - ./data/documents:/app/data/documents:ro
+      - ./data/chroma_db:/app/data/chroma_db
+      - sqlite_data:/app/backend/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  sqlite_data:
+    driver: local

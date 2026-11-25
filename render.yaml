@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: sunbeam-smartbot-api
+    env: python
+    region: oregon
+    plan: starter
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    disk:
+      name: sunbeam-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-120b
+      - key: CORS_ORIGINS
+        value: '["https://sunbeam-smartbot.vercel.app","http://localhost:5173"]'
+      - key: CHROMA_PERSIST_DIR
+        value: /var/data/chroma_db
